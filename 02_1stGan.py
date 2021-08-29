@@ -97,4 +97,26 @@ def train(iterations, batch_size, sample_interval):
 
             sample_images(generator)
 
+
+def sample_images(generator, image_grid_rows=4, image_grid_columns=4):
+    
+    z = np.random.normal(0,1,(image_grid_rows * image_grid_columns, z_dim))
+    
+    gen_imgs = generator.predict(z)
+    gen_imgs = 0.5 * gen_imgs + 0.5
+    fig, axs = plt.subplots(image_grid_rows, image_grid_columns, figsize=(4,4), sharey=True, sharex=True)
+    
+    cnt = 0 
+    for i in range(image_grid_rows):
+        for j in range(image_grid_columns):
+            axs[i,j].imshow(gen_imgs[cnt, :, : , 0], cmap='gray')
+            axs[i,j].axis('off')
+            cnt += 1
+
+iterations = 20000
+batch_size = 128
+sample_interval = 1000
+
+train(iterations, batch_size, sample_interval)
+
         
